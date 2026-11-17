@@ -374,10 +374,10 @@ public class PrometeoCarController : MonoBehaviour
         }
         else
         {
-            bool isAccelerating = InputManager.Instance.Accelerate.ConsumeValue();
-            bool isBraking = InputManager.Instance.Brake.ConsumeValue();
-            bool isHandbrake = InputManager.Instance.Handbrake.ConsumeValue();
-            Vector2 steeringInput = InputManager.Instance.MoveAxis.ConsumeValue();
+            bool isAccelerating = InputManager.Instance.Accelerate.Value;
+            bool isBraking = InputManager.Instance.Brake.Value;
+            bool isHandbrake = InputManager.Instance.Handbrake.Value;
+            Vector2 steeringInput = InputManager.Instance.MoveAxis.Value;
             
             bool isTurningLeft = steeringInput.x < -0.5f;
             bool isTurningRight = steeringInput.x > 0.5f;
@@ -429,8 +429,6 @@ public class PrometeoCarController : MonoBehaviour
                     deceleratingCar = true;
                 }
             }
-
-            
 
             if (isTurningRight == false && isTurningLeft == false && steeringAxis != 0.0f)
             {
