@@ -65,6 +65,22 @@ namespace Battlekart
             }
         }
 
+        public bool TryGetHostPlayer(out PlayerInput host)
+        {
+            host = null;
+            int lowestSlot = int.MaxValue;
+            foreach (KeyValuePair<PlayerInput, int> entry in _playerSlots)
+            {
+                if (entry.Value < lowestSlot)
+                {
+                    lowestSlot = entry.Value;
+                    host = entry.Key;
+                }
+            }
+
+            return host is not null;
+        }
+
         private void OnPlayerJoined(PlayerInput player)
         {
             if (TryReserveSlot(out int slot) == false)
@@ -107,19 +123,7 @@ namespace Battlekart
         private void SetupKart(GameObject kart, int slot, string displayName)
         {
             kart.name = $"Kart {displayName}";
-
-            if (_spawnPoints is { Length: > 0 })
-            {
-                Transform spawn = _spawnPoints[slot % _spawnPoints.Length];
-                if (kart.TryGetComponent(out Rigidbody body))
-                {
-                    body.position = spawn.position;
-                    body.rotation = spawn.rotation;
-                    body.linearVelocity = Vector3.zero;
-                    body.angularVelocity = Vector3.zero;
-                }
-                kart.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
-            }
+            MoveToSpawn(kart, slot);
 
             Color color = _playerColors[slot];
             Tint(kart, color);
@@ -128,6 +132,35 @@ namespace Battlekart
             {
                 carrier.Initialize(slot, color, displayName);
             }
+        }
+
+        public void RespawnAll()
+        {
+            foreach (BalloonCarrier carrier in BalloonCarrier.All)
+            {
+                MoveToSpawn(carrier.gameObject, carrier.PlayerIndex);
+            }
+        }
+
+        private void MoveToSpawn(GameObject kart, int slot)
+        {
+            if (_spawnPoints is not { Length: > 0 })
+            {
+                return;
+            }
+
+            Transform spawn = _spawnPoints[slot % _spawnPoints.Length];
+            if (kart.TryGetComponent(out Rigidbody body))
+            {
+                body.position = spawn.position;
+                body.rotation = spawn.rotation;
+                if (body.isKinematic == false)
+                {
+                    body.linearVelocity = Vector3.zero;
+                    body.angularVelocity = Vector3.zero;
+                }
+            }
+            kart.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
         }
 
         public static void Tint(GameObject kart, Color color)

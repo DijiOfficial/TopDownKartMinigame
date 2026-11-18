@@ -25,6 +25,8 @@ namespace Battlekart
 
         private readonly List<Transform> _balloons = new();
         private MeshRenderer[] _kartRenderers = Array.Empty<MeshRenderer>();
+        private Collider[] _kartColliders = Array.Empty<Collider>();
+        private Rigidbody _body;
         private float _invulnerableTimer;
 
         public event Action<BalloonCarrier> OnCountChanged;
@@ -34,6 +36,7 @@ namespace Battlekart
         public string PlayerName { get; private set; } = "P?";
         public int Count => _balloons.Count;
         public bool IsInvulnerable => _invulnerableTimer > 0.0f;
+        public bool IsHidden { get; private set; }
         public bool CanBeStolenFrom => Count > 0 && IsInvulnerable == false;
         public Vector3 NosePosition => transform.position + transform.forward * _noseOffset;
 
@@ -42,6 +45,8 @@ namespace Battlekart
         private void Awake()
         {
             _kartRenderers = GetComponentsInChildren<MeshRenderer>();
+            _kartColliders = GetComponentsInChildren<Collider>();
+            TryGetComponent(out _body);
         }
 
         private void OnEnable()
@@ -97,6 +102,33 @@ namespace Battlekart
             return true;
         }
 
+        public void SetHidden(bool hidden)
+        {
+            IsHidden = hidden;
+            _invulnerableTimer = 0.0f;
+            SetKartVisible(true);
+
+            foreach (Transform balloon in _balloons)
+            {
+                balloon.gameObject.SetActive(hidden == false);
+            }
+
+            foreach (Collider kartCollider in _kartColliders)
+            {
+                kartCollider.enabled = hidden == false;
+            }
+
+            if (_body is not null)
+            {
+                if (hidden)
+                {
+                    _body.linearVelocity = Vector3.zero;
+                    _body.angularVelocity = Vector3.zero;
+                }
+                _body.isKinematic = hidden;
+            }
+        }
+
         public void GiveBalloon(Vector3 spawnPosition)
         {
             SpawnBalloon(spawnPosition);
@@ -111,6 +143,7 @@ namespace Battlekart
             {
                 RendererTint.Apply(balloonRenderer, PlayerColor);
             }
+            balloon.SetActive(IsHidden == false);
             _balloons.Add(balloon.transform);
         }
 
@@ -165,7 +198,7 @@ namespace Battlekart
         {
             foreach (MeshRenderer kartRenderer in _kartRenderers)
             {
-                kartRenderer.enabled = visible;
+                kartRenderer.enabled = visible && IsHidden == false;
             }
         }
 

@@ -952,6 +952,7 @@ GameObject:
   - component: {fileID: 2189666396901523637}
   - component: {fileID: 1234358599763255118}
   - component: {fileID: 4002959021028129602}
+  - component: {fileID: -7118712903256631386}
   m_Layer: 0
   m_Name: PF_Kart
   m_TagString: Untagged
@@ -1001,7 +1002,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &4591330884151718208
@@ -1129,6 +1130,22 @@ MonoBehaviour:
   _noseOffset: 1.2
   _invulnerableDuration: 2
   _blinkInterval: 0.1
+--- !u!114 &-7118712903256631386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126114538632726649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9053d8d3ba4ae4996bcf9a2b861245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.BalloonWeight
+  _neutralCount: 3
+  _slowPerExtraBalloon: 0.03
+  _maxSlow: 0.25
+  _bonusPerMissingBalloon: 0.05
 --- !u!1001 &57442113390359561
 PrefabInstance:
   m_ObjectHideFlags: 0

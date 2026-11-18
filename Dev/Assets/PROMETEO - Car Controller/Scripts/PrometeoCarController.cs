@@ -16,7 +16,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class PrometeoCarController : MonoBehaviour
+public class PrometeoCarController : MonoBehaviour, ICarInputReceiver
 {
     //CAR SETUP
 
@@ -155,6 +155,23 @@ public class PrometeoCarController : MonoBehaviour
     bool touchControlsSetup = false;
 
     ICarInputSource inputSource;
+    ICarInputSource inputOverride;
+    bool hasInputOverride;
+    IKartSpeedModifier[] speedModifiers = Array.Empty<IKartSpeedModifier>();
+
+    ICarInputSource ActiveInputSource => hasInputOverride ? inputOverride : inputSource;
+
+    public void OverrideInputSource(ICarInputSource source)
+    {
+        inputOverride = source;
+        hasInputOverride = true;
+    }
+
+    public void ClearInputOverride()
+    {
+        inputOverride = null;
+        hasInputOverride = false;
+    }
 
     void Awake()
     {
@@ -162,6 +179,19 @@ public class PrometeoCarController : MonoBehaviour
         {
             Debug.LogWarning($"{name} has no ICarInputSource (e.g. PlayerCarInput). It will not move.", this);
         }
+
+        speedModifiers = GetComponents<IKartSpeedModifier>();
+    }
+
+    int GetEffectiveMaxSpeed()
+    {
+        float multiplier = 1.0f;
+        foreach (IKartSpeedModifier modifier in speedModifiers)
+        {
+            multiplier *= modifier.SpeedMultiplier;
+        }
+
+        return Mathf.RoundToInt(maxSpeed * multiplier);
     }
 
     /*
@@ -389,12 +419,13 @@ public class PrometeoCarController : MonoBehaviour
             bool isHandbrake = false;
             float steer = 0.0f;
             
-            if (inputSource is not null)
+            ICarInputSource activeSource = ActiveInputSource;
+            if (activeSource is not null)
             {
-                isAccelerating = inputSource.Accelerate;
-                isBraking = inputSource.Brake;
-                isHandbrake = inputSource.Handbrake;
-                steer = inputSource.Steer;
+                isAccelerating = activeSource.Accelerate;
+                isBraking = activeSource.Brake;
+                isHandbrake = activeSource.Handbrake;
+                steer = activeSource.Steer;
             }
 
             bool isTurningLeft = steer < -0.5f;
@@ -650,7 +681,7 @@ public class PrometeoCarController : MonoBehaviour
         }
         else
         {
-            if (Mathf.RoundToInt(carSpeed) < maxSpeed)
+            if (Mathf.RoundToInt(carSpeed) < GetEffectiveMaxSpeed())
             {
                 //Apply positive torque in all wheels to go forward if maxSpeed has not been reached.
                 frontLeftCollider.brakeTorque = 0;
