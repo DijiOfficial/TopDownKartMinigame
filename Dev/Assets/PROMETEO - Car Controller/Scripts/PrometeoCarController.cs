@@ -154,6 +154,16 @@ public class PrometeoCarController : MonoBehaviour
 
     bool touchControlsSetup = false;
 
+    ICarInputSource inputSource;
+
+    void Awake()
+    {
+        if (TryGetComponent(out inputSource) == false)
+        {
+            Debug.LogWarning($"{name} has no ICarInputSource (e.g. PlayerCarInput). It will not move.", this);
+        }
+    }
+
     /*
     The following variables are used to store information about sideways friction of the wheels (such as
     extremumSlip,extremumValue, asymptoteSlip, asymptoteValue and stiffness). We change this values to
@@ -374,13 +384,21 @@ public class PrometeoCarController : MonoBehaviour
         }
         else
         {
-            bool isAccelerating = InputManager.Instance.Accelerate.Value;
-            bool isBraking = InputManager.Instance.Brake.Value;
-            bool isHandbrake = InputManager.Instance.Handbrake.Value;
-            Vector2 steeringInput = InputManager.Instance.MoveAxis.Value;
+            bool isAccelerating = false;
+            bool isBraking = false;
+            bool isHandbrake = false;
+            float steer = 0.0f;
             
-            bool isTurningLeft = steeringInput.x < -0.5f;
-            bool isTurningRight = steeringInput.x > 0.5f;
+            if (inputSource is not null)
+            {
+                isAccelerating = inputSource.Accelerate;
+                isBraking = inputSource.Brake;
+                isHandbrake = inputSource.Handbrake;
+                steer = inputSource.Steer;
+            }
+
+            bool isTurningLeft = steer < -0.5f;
+            bool isTurningRight = steer > 0.5f;
             
             if (isAccelerating)
             {
