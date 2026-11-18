@@ -1373,11 +1373,13 @@ MonoBehaviour:
 
     W  |  RT - Accelerate
 
-    S  |  LT - Brake / Reverse
+    S  |  LT
+    - Brake / Reverse
 
     A D  |  Left Stick - Steer
 
-    Space  |  X / Square - Handbrake'
+    Space  |  X / Square -
+    Handbrake'
 --- !u!222 &462516163
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6476,14 +6478,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1156868374}
     - target: {fileID: 4571443247729239212, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
-      propertyPath: _lobbyOnlyObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4571443247729239212, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
-      propertyPath: _lobbyOnlyObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 462516160}
-    - target: {fileID: 4571443247729239212, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
       propertyPath: _matchDuration
       value: 10
       objectReference: {fileID: 0}
@@ -6491,10 +6485,26 @@ PrefabInstance:
       propertyPath: _playerInputManager
       value: 
       objectReference: {fileID: 1156868375}
+    - target: {fileID: 4571443247729239212, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
+      propertyPath: _lobbyOnlyObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4571443247729239212, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
+      propertyPath: '_lobbyOnlyObjects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 462516160}
+    - target: {fileID: 5691625961805058922, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
+      propertyPath: _visualHeight
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5743138268288038941, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
       propertyPath: m_Name
       value: PF_Singletons
       objectReference: {fileID: 0}
+    - target: {fileID: 6965040624804612023, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
+      propertyPath: _crownPrefab
+      value: 
+      objectReference: {fileID: 2617750590020657019, guid: 422c40d94c58cdc43ae245e49072ca50, type: 3}
     - target: {fileID: 7969188668826494665, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 129.23671

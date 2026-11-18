@@ -101,7 +101,7 @@ MonoBehaviour:
   _matchManager: {fileID: 4571443247729239212}
   _crownPrefab: {fileID: 0}
   _fallbackColor: {r: 1, g: 0.82, b: 0.1, a: 1}
-  _height: 2.5
+  _height: 1.6
   _followSharpness: 10
   _spinSpeed: 90
   _bobAmplitude: 0.15
