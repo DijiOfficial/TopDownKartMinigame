@@ -25,7 +25,15 @@ namespace Battlekart
             new Color(0.25f, 0.25f, 0.30f),
         };
 
+        [Header("Bots")]
+        [SerializeField] private GameObject _botPrefab;
+        [SerializeField, Range(0, 11)] private int _botCount = 0;
+
         private PlayerInputManager _manager;
+        private readonly HashSet<int> _usedSlots = new();
+        private readonly Dictionary<PlayerInput, int> _playerSlots = new();
+        private readonly List<GameObject> _bots = new();
+
         public readonly List<PlayerInput> Players = new();
 
         private void Awake()
@@ -45,39 +53,81 @@ namespace Battlekart
             _manager.onPlayerLeft -= OnPlayerLeft;
         }
 
+        public void SpawnBots()
+        {
+            _bots.RemoveAll(bot => bot == null);
+
+            while (_bots.Count < _botCount && TryReserveSlot(out int slot))
+            {
+                GameObject bot = Instantiate(_botPrefab);
+                SetupKart(bot, slot, $"CPU {slot + 1}");
+                _bots.Add(bot);
+            }
+        }
+
         private void OnPlayerJoined(PlayerInput player)
         {
+            if (TryReserveSlot(out int slot) == false)
+            {
+                Debug.LogWarning("No free kart slot left, removing the joined player.", this);
+                Destroy(player.gameObject);
+                return;
+            }
+
             Players.Add(player);
-            int index = player.playerIndex;
-            player.gameObject.name = $"Kart P{index + 1}";
+            _playerSlots.Add(player, slot);
+            SetupKart(player.gameObject, slot, $"P{slot + 1}");
+
+            Debug.Log($"P{slot + 1} joined with {player.currentControlScheme} ({string.Join(", ", player.devices)})");
+        }
+
+        private void OnPlayerLeft(PlayerInput player)
+        {
+            Players.Remove(player);
+            if (_playerSlots.Remove(player, out int slot))
+            {
+                _usedSlots.Remove(slot);
+            }
+        }
+
+        private bool TryReserveSlot(out int slot)
+        {
+            for (slot = 0; slot < _playerColors.Length; slot++)
+            {
+                if (_usedSlots.Add(slot))
+                {
+                    return true;
+                }
+            }
+
+            slot = -1;
+            return false;
+        }
+
+        private void SetupKart(GameObject kart, int slot, string displayName)
+        {
+            kart.name = $"Kart {displayName}";
 
             if (_spawnPoints is { Length: > 0 })
             {
-                Transform spawn = _spawnPoints[index % _spawnPoints.Length];
-                if (player.TryGetComponent(out Rigidbody body))
+                Transform spawn = _spawnPoints[slot % _spawnPoints.Length];
+                if (kart.TryGetComponent(out Rigidbody body))
                 {
                     body.position = spawn.position;
                     body.rotation = spawn.rotation;
                     body.linearVelocity = Vector3.zero;
                     body.angularVelocity = Vector3.zero;
                 }
-                player.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
+                kart.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
             }
 
-            Color color = _playerColors[index % _playerColors.Length];
-            Tint(player.gameObject, color);
+            Color color = _playerColors[slot];
+            Tint(kart, color);
 
-            if (player.TryGetComponent(out BalloonCarrier carrier))
+            if (kart.TryGetComponent(out BalloonCarrier carrier))
             {
-                carrier.Initialize(index, color);
+                carrier.Initialize(slot, color, displayName);
             }
-
-            Debug.Log($"P{index + 1} joined with {player.currentControlScheme} ({string.Join(", ", player.devices)})");
-        }
-
-        private void OnPlayerLeft(PlayerInput player)
-        {
-            Players.Remove(player);
         }
 
         public static void Tint(GameObject kart, Color color)

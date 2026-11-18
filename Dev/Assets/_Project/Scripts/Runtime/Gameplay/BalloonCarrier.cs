@@ -31,7 +31,7 @@ namespace Battlekart
 
         public int PlayerIndex { get; private set; }
         public Color PlayerColor { get; private set; } = Color.white;
-        public string PlayerName => $"P{PlayerIndex + 1}";
+        public string PlayerName { get; private set; } = "P?";
         public int Count => _balloons.Count;
         public bool IsInvulnerable => _invulnerableTimer > 0.0f;
         public bool CanBeStolenFrom => Count > 0 && IsInvulnerable == false;
@@ -59,10 +59,11 @@ namespace Battlekart
             ClearBalloons();
         }
 
-        public void Initialize(int playerIndex, Color color)
+        public void Initialize(int playerIndex, Color color, string displayName)
         {
             PlayerIndex = playerIndex;
             PlayerColor = color;
+            PlayerName = displayName;
             ResetBalloons();
         }
 

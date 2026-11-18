@@ -17,6 +17,7 @@ namespace Battlekart
 
         [SerializeField] private StealSystem _stealSystem;
         [SerializeField] private PlayerInputManager _playerInputManager;
+        [SerializeField] private KartSpawner _kartSpawner;
         [SerializeField] private float _matchDuration = 180.0f;
         [SerializeField] private float _countdownDuration = 3.0f;
 
@@ -91,6 +92,7 @@ namespace Battlekart
             _winner = null;
             _stealSystem.StealingEnabled = false;
             _playerInputManager.DisableJoining();
+            _kartSpawner.SpawnBots();
 
             foreach (BalloonCarrier carrier in BalloonCarrier.All)
             {
