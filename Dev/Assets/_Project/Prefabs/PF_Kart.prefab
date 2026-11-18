@@ -951,6 +951,7 @@ GameObject:
   - component: {fileID: 4022361775122182429}
   - component: {fileID: 2189666396901523637}
   - component: {fileID: 1234358599763255118}
+  - component: {fileID: 4002959021028129602}
   m_Layer: 0
   m_Name: PF_Kart
   m_TagString: Untagged
@@ -1107,6 +1108,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Battlekart::Battlekart.KartTint
   Renderers:
   - {fileID: 757141851096763786}
+--- !u!114 &4002959021028129602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126114538632726649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51786fd3ffb74234f8955efd681e1ee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.BalloonCarrier
+  _balloonPrefab: {fileID: 7595192180820662175, guid: 489a866eab6425c42a07f1cc91078107, type: 3}
+  _startingBalloons: 3
+  _tailOffset: 1.5
+  _balloonHeight: 1.5
+  _balloonSpacing: 1
+  _followSharpness: 15
+  _noseOffset: 1.2
+  _invulnerableDuration: 2
+  _blinkInterval: 0.1
 --- !u!1001 &57442113390359561
 PrefabInstance:
   m_ObjectHideFlags: 0

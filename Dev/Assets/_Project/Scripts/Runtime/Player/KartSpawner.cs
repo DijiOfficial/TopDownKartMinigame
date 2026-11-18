@@ -25,9 +25,6 @@ namespace Battlekart
             new Color(0.25f, 0.25f, 0.30f),
         };
 
-        private static readonly int _baseColorId = Shader.PropertyToID("_BaseColor");
-        private static readonly int _colorId = Shader.PropertyToID("_Color");
-
         private PlayerInputManager _manager;
         public readonly List<PlayerInput> Players = new();
 
@@ -70,6 +67,11 @@ namespace Battlekart
             Color color = _playerColors[index % _playerColors.Length];
             Tint(player.gameObject, color);
 
+            if (player.TryGetComponent(out BalloonCarrier carrier))
+            {
+                carrier.Initialize(index, color);
+            }
+
             Debug.Log($"P{index + 1} joined with {player.currentControlScheme} ({string.Join(", ", player.devices)})");
         }
 
@@ -81,15 +83,7 @@ namespace Battlekart
         public static void Tint(GameObject kart, Color color)
         {
             Renderer[] renderers = kart.TryGetComponent(out KartTint tint) && tint.Renderers.Length > 0 ? tint.Renderers : kart.GetComponentsInChildren<MeshRenderer>();
-
-            MaterialPropertyBlock block = new();
-            foreach (Renderer renderer in renderers)
-            {
-                renderer.GetPropertyBlock(block);
-                block.SetColor(_baseColorId, color);
-                block.SetColor(_colorId, color);
-                renderer.SetPropertyBlock(block);
-            }
+            RendererTint.Apply(renderers, color);
         }
     }
 }
