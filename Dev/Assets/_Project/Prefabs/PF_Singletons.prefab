@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5691625961805058922}
   - component: {fileID: 4571443247729239212}
   - component: {fileID: 6965040624804612023}
+  - component: {fileID: 3508800804754853674}
   m_Layer: 0
   m_Name: MatchManager
   m_TagString: Untagged
@@ -52,7 +53,7 @@ MonoBehaviour:
   _fillDuration: 0.4
   _showZones: 1
   _lineMaterial: {fileID: 0}
-  _visualHeight: 0.1
+  _visualHeight: 0.2
   _outlineWidth: 0.05
   _fillWidth: 0.35
   _outlineAlpha: 0.35
@@ -71,10 +72,12 @@ MonoBehaviour:
   _stealSystem: {fileID: 5691625961805058922}
   _playerInputManager: {fileID: 0}
   _kartSpawner: {fileID: 0}
-  _endSequence: {fileID: 0}
+  _endSequence: {fileID: 3508800804754853674}
   _matchDuration: 180
   _countdownDuration: 3
-  _lobbyOnlyObjects: []
+  _suddenDeathMusicPitch: 1.1
+  _lobbyOnlyObjects:
+  - {fileID: 0}
   _scoreboardTop: 0.01
   _scoreboardScale: 0.8
   _lobbyPanelTop: 0.1
@@ -99,13 +102,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Battlekart::Battlekart.LeaderCrown
   _matchManager: {fileID: 4571443247729239212}
-  _crownPrefab: {fileID: 0}
+  _crownPrefab: {fileID: 2617750590020657019, guid: 422c40d94c58cdc43ae245e49072ca50, type: 3}
   _fallbackColor: {r: 1, g: 0.82, b: 0.1, a: 1}
   _height: 1.6
+  _forwardOffset: 0.8
   _followSharpness: 10
   _spinSpeed: 90
   _bobAmplitude: 0.15
   _bobFrequency: 2
+  _glowColor: {r: 1, g: 0.8, b: 0.3, a: 1}
+  _emissionIntensity: 1.5
+  _lightIntensity: 2
+  _lightRange: 4
+--- !u!114 &3508800804754853674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3160779257259978821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c133aec8185a2db4b91a10d9327e26c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.EndSequence
+  _cameraDirector: {fileID: 0}
+  _circuitRoot: {fileID: 0}
+  _waypointRadius: 3
+  _cruiseSpeed: 8
+  _steerFullAngle: 25
 --- !u!1 &5743138268288038941
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,8 +162,68 @@ Transform:
   m_Children:
   - {fileID: 6347987232312930277}
   - {fileID: 8208424346845143816}
+  - {fileID: 2834615811125817872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6992638411123462305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2834615811125817872}
+  - component: {fileID: 7448384214604823720}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2834615811125817872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992638411123462305}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7969188668826494665}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7448384214604823720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992638411123462305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56026c635a9d5084d818aa561fa16c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.AudioManager
+  _menuMusic: {fileID: 0}
+  _countdownMusic: {fileID: 0}
+  _gameMusic: {fileID: 0}
+  _victoryMusic: {fileID: 0}
+  _musicVolume: 0.5
+  _musicFadeTime: 0.5
+  _countdownTick: {fileID: 0}
+  _countdownGo: {fileID: 0}
+  _steal: {fileID: 0}
+  _pickup: {fileID: 0}
+  _boost: {fileID: 0}
+  _grapple: {fileID: 0}
+  _bombTick: {fileID: 0}
+  _bombExplode: {fileID: 0}
+  _sfxVolume: 0.8
 --- !u!1 &8887852855153205811
 GameObject:
   m_ObjectHideFlags: 0

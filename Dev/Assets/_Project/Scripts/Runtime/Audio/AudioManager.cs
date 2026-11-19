@@ -25,30 +25,39 @@ namespace Battlekart
 
     public class AudioManager : SingletonBehaviour<AudioManager>
     {
-        [Header("Music")]
-        [SerializeField] private AudioClip _menuMusic;
-        [SerializeField] private AudioClip _countdownMusic;
-        [SerializeField] private AudioClip _gameMusic;
-        [SerializeField] private AudioClip _victoryMusic;
+        [Header("Master")]
         [SerializeField, Range(0.0f, 1.0f)] private float _musicVolume = 0.5f;
+        [SerializeField, Range(0.0f, 1.0f)] private float _sfxVolume = 0.8f;
         [SerializeField] private float _musicFadeTime = 0.5f;
 
+        [Header("Kart Loops")]
+        [SerializeField, Range(0.0f, 1.0f)] private float _engineVolume = 0.08f;
+        [SerializeField, Range(0.0f, 1.0f)] private float _screechVolume = 0.25f;
+
+        [Header("Music")]
+        [SerializeField] private SoundSetting _menuMusic = new SoundSetting();
+        [SerializeField] private SoundSetting _countdownMusic = new SoundSetting();
+        [SerializeField] private SoundSetting _gameMusic = new SoundSetting();
+        [SerializeField] private SoundSetting _victoryMusic = new SoundSetting();
+
         [Header("Sound Effects")]
-        [SerializeField] private AudioClip _countdownTick;
-        [SerializeField] private AudioClip _countdownGo;
-        [SerializeField] private AudioClip _steal;
-        [SerializeField] private AudioClip _pickup;
-        [SerializeField] private AudioClip _boost;
-        [SerializeField] private AudioClip _grapple;
-        [SerializeField] private AudioClip _bombTick;
-        [SerializeField] private AudioClip _bombExplode;
-        [SerializeField, Range(0.0f, 1.0f)] private float _sfxVolume = 0.8f;
+        [SerializeField] private SoundSetting _countdownTick = new SoundSetting();
+        [SerializeField] private SoundSetting _countdownGo = new SoundSetting();
+        [SerializeField] private SoundSetting _steal = new SoundSetting();
+        [SerializeField] private SoundSetting _pickup = new SoundSetting();
+        [SerializeField] private SoundSetting _boost = new SoundSetting();
+        [SerializeField] private SoundSetting _grapple = new SoundSetting();
+        [SerializeField] private SoundSetting _bombTick = new SoundSetting();
+        [SerializeField] private SoundSetting _bombExplode = new SoundSetting();
 
         private AudioSource _musicA;
         private AudioSource _musicB;
         private AudioSource _activeMusic;
         private AudioSource _sfxSource;
         private eMusic _currentMusic = eMusic.None;
+
+        public static float EngineVolume => Instance != null ? Instance._sfxVolume * Instance._engineVolume : 0.0f;
+        public static float ScreechVolume => Instance != null ? Instance._sfxVolume * Instance._screechVolume : 0.0f;
 
         protected override void Awake()
         {
@@ -86,10 +95,10 @@ namespace Battlekart
 
         private void PlaySfx(eSfx sfx)
         {
-            AudioClip clip = GetClip(sfx);
-            if (clip != null)
+            SoundSetting setting = GetSetting(sfx);
+            if (setting is not null && setting.Clip != null)
             {
-                _sfxSource.PlayOneShot(clip, _sfxVolume);
+                _sfxSource.PlayOneShot(setting.Clip, _sfxVolume * setting.Volume);
             }
         }
 
@@ -104,7 +113,8 @@ namespace Battlekart
             SetMusicPitch(1.0f);
 
             AudioSource next = _activeMusic == _musicA ? _musicB : _musicA;
-            AudioClip clip = GetClip(music);
+            SoundSetting setting = GetSetting(music);
+            AudioClip clip = setting is not null ? setting.Clip : null;
             next.Stop();
             next.clip = clip;
             next.loop = music == eMusic.Menu || music == eMusic.Game;
@@ -119,10 +129,12 @@ namespace Battlekart
 
         private void Update()
         {
-            float step = _musicFadeTime > 0.0f ? Time.unscaledDeltaTime / _musicFadeTime * _musicVolume : _musicVolume;
+            SoundSetting setting = GetSetting(_currentMusic);
+            float targetVolume = setting is not null ? _musicVolume * setting.Volume : 0.0f;
+            float step = _musicFadeTime > 0.0f ? Time.unscaledDeltaTime / _musicFadeTime : 1.0f;
             AudioSource inactive = _activeMusic == _musicA ? _musicB : _musicA;
 
-            _activeMusic.volume = Mathf.MoveTowards(_activeMusic.volume, _musicVolume, step);
+            _activeMusic.volume = Mathf.MoveTowards(_activeMusic.volume, targetVolume, step);
             inactive.volume = Mathf.MoveTowards(inactive.volume, 0.0f, step);
             if (inactive.isPlaying && inactive.volume <= 0.0f)
             {
@@ -130,7 +142,7 @@ namespace Battlekart
             }
         }
 
-        private AudioClip GetClip(eMusic music)
+        private SoundSetting GetSetting(eMusic music)
         {
             switch (music)
             {
@@ -147,7 +159,7 @@ namespace Battlekart
             }
         }
 
-        private AudioClip GetClip(eSfx sfx)
+        private SoundSetting GetSetting(eSfx sfx)
         {
             switch (sfx)
             {

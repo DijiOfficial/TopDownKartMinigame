@@ -15,7 +15,7 @@ namespace Battlekart
         [SerializeField] private bool _allowBomb = true;
 
         [Header("Timing")]
-        [SerializeField] private float _pickupRadius = 1.8f;
+        [SerializeField] private float _pickupRadius = 2.5f;
         [SerializeField] private float _respawnTime = 9.0f;
 
         [Header("Visuals")]

@@ -160,7 +160,7 @@ MonoBehaviour:
   _allowBoost: 1
   _allowGrapple: 1
   _allowBomb: 1
-  _pickupRadius: 1.8
+  _pickupRadius: 2.5
   _respawnTime: 9
   _visual: {fileID: 2054726983160704672}
   _visualSize: 0.8
