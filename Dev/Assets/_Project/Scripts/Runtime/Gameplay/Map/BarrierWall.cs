@@ -42,7 +42,7 @@ namespace Battlekart
 
         private void Awake()
         {
-            GameObject blockObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject blockObject = RuntimePrimitive.Create(PrimitiveType.Cube);
             blockObject.name = "Wall Block";
             blockObject.transform.SetParent(transform, false);
             blockObject.transform.localScale = _size;

@@ -28,7 +28,7 @@ namespace Battlekart
 
         private void Awake()
         {
-            GameObject padObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject padObject = RuntimePrimitive.Create(PrimitiveType.Cube);
             padObject.name = "Boost Pad Visual";
             padObject.transform.SetParent(transform, false);
             padObject.transform.localPosition = Vector3.up * (_padThickness * 0.5f);

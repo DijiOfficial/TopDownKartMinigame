@@ -32,7 +32,7 @@ namespace Battlekart
 
         private void Awake()
         {
-            GameObject plateObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            GameObject plateObject = RuntimePrimitive.Create(PrimitiveType.Cylinder);
             plateObject.name = "Plate Visual";
             plateObject.transform.SetParent(transform, false);
             plateObject.transform.localPosition = Vector3.up * (_plateThickness * 0.5f);

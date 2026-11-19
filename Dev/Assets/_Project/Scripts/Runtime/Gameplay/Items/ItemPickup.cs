@@ -166,7 +166,7 @@ namespace Battlekart
         {
             if (_visual == null)
             {
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject cube = RuntimePrimitive.Create(PrimitiveType.Cube);
                 cube.name = "Pickup Visual";
                 cube.transform.SetParent(transform, false);
                 cube.transform.localPosition = Vector3.up * _visualHeight;

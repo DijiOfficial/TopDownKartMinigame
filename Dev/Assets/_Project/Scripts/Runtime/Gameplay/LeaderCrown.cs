@@ -65,7 +65,7 @@ namespace Battlekart
                 return Instantiate(_crownPrefab).transform;
             }
 
-            GameObject crown = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            GameObject crown = RuntimePrimitive.Create(PrimitiveType.Cylinder);
             crown.name = "Leader Crown";
             crown.transform.localScale = new Vector3(1.0f, 0.15f, 1.0f);
             Destroy(crown.GetComponent<Collider>());

@@ -44,7 +44,7 @@ namespace Battlekart
 
             for (int i = 0; i < _bars; i++)
             {
-                GameObject bar = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject bar = RuntimePrimitive.Create(PrimitiveType.Cube);
                 bar.name = $"Gate Bar {i + 1}";
                 bar.transform.SetParent(_rotor, false);
                 bar.transform.localPosition = Vector3.up * (_height * 0.5f);
@@ -53,7 +53,7 @@ namespace Battlekart
                 RendererTint.Apply(bar.GetComponent<Renderer>(), _color);
             }
 
-            GameObject hub = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            GameObject hub = RuntimePrimitive.Create(PrimitiveType.Cylinder);
             hub.name = "Gate Hub";
             hub.transform.SetParent(_rotor, false);
             hub.transform.localPosition = Vector3.up * (_height * 0.5f + 0.05f);
