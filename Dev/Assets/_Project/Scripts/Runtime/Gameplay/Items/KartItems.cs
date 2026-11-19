@@ -175,6 +175,7 @@ namespace Battlekart
             {
                 case eItemType.Boost:
                     _boostTimer = _boostDuration;
+                    AudioManager.Play(eSfx.Boost);
                     if (_body is not null)
                     {
                         _body.AddForce(FlatForward() * _boostImpulse, ForceMode.VelocityChange);
@@ -185,6 +186,7 @@ namespace Battlekart
                     if (GrappleTarget is not null && GrappleTarget.TryTakeBalloon(out Vector3 balloonPosition))
                     {
                         _carrier.GiveBalloon(balloonPosition);
+                        AudioManager.Play(eSfx.Grapple);
                         _grappleLineTarget = GrappleTarget;
                         _grappleLineTimer = _grappleLineDuration;
                         HeldItem = eItemType.None;
@@ -233,7 +235,13 @@ namespace Battlekart
                 return;
             }
 
+            int previousSecond = Mathf.CeilToInt(_bombTimer);
             _bombTimer -= deltaTime;
+            if (Mathf.CeilToInt(_bombTimer) < previousSecond && _bombTimer > 0.0f)
+            {
+                AudioManager.Play(eSfx.BombTick);
+            }
+
             float blinkInterval = Mathf.Lerp(0.08f, 0.4f, _bombTimer / _bombFuse);
             _bombBlinkPhase += deltaTime / blinkInterval;
 
@@ -247,6 +255,7 @@ namespace Battlekart
         {
             _bombTimer = 0.0f;
             _flashTimer = _explosionFlashDuration;
+            AudioManager.Play(eSfx.BombExplode);
 
             foreach (BalloonCarrier other in BalloonCarrier.All)
             {

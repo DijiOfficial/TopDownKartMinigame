@@ -114,6 +114,7 @@ namespace Battlekart
                 if (carrier.TryGetComponent(out KartItems items) && items.CanReceiveItem && items.TryGiveItem(RollItem()))
                 {
                     IsAvailable = false;
+                    AudioManager.Play(eSfx.Pickup);
                     _respawnTimer = _respawnTime;
                     return;
                 }

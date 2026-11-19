@@ -3782,6 +3782,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 148448105}
   m_LocalEulerAnglesHint: {x: 0, y: -103.994, z: 0}
+--- !u!4 &1361469359 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7969188668826494665, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
+  m_PrefabInstance: {fileID: 3092751190693550695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1397381300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5833,6 +5838,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 148448105}
   m_LocalEulerAnglesHint: {x: 0, y: -103.994, z: 0}
+--- !u!1 &2018776845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2018776846}
+  - component: {fileID: 2018776847}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2018776846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018776845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1361469359}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2018776847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018776845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56026c635a9d5084d818aa561fa16c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.AudioManager
+  _menuMusic: {fileID: 0}
+  _countdownMusic: {fileID: 0}
+  _gameMusic: {fileID: 0}
+  _victoryMusic: {fileID: 0}
+  _musicVolume: 0.5
+  _musicFadeTime: 0.5
+  _countdownTick: {fileID: 0}
+  _countdownGo: {fileID: 0}
+  _steal: {fileID: 0}
+  _pickup: {fileID: 0}
+  _boost: {fileID: 0}
+  _grapple: {fileID: 0}
+  _bombTick: {fileID: 0}
+  _bombExplode: {fileID: 0}
+  _sfxVolume: 0.8
 --- !u!1 &2022704402
 GameObject:
   m_ObjectHideFlags: 0
@@ -6616,7 +6680,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7969188668826494665, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2018776846}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3160779257259978821, guid: 0925c11bfb27db448a6da5fbfbc7d2cb, type: 3}
       insertIndex: -1

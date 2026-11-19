@@ -115,6 +115,7 @@ namespace Battlekart
             if (target.TryTakeBalloon(out Vector3 balloonPosition))
             {
                 attacker.GiveBalloon(balloonPosition);
+                AudioManager.Play(eSfx.Steal);
             }
         }
 

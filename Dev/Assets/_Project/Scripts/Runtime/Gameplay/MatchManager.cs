@@ -21,6 +21,7 @@ namespace Battlekart
         [SerializeField] private EndSequence _endSequence;
         [SerializeField] private float _matchDuration = 180.0f;
         [SerializeField] private float _countdownDuration = 3.0f;
+        [SerializeField] private float _suddenDeathMusicPitch = 1.1f;
         [SerializeField] private GameObject[] _lobbyOnlyObjects = System.Array.Empty<GameObject>();
 
         [Header("HUD Layout")]
@@ -42,6 +43,7 @@ namespace Battlekart
         private readonly List<BalloonCarrier> _results = new();
         private float _finishedTime;
         private float _timer;
+        private int _lastCountdownSecond;
         private BalloonCarrier _winner;
         private float _scoreboardBottom;
 
@@ -70,6 +72,7 @@ namespace Battlekart
                     break;
                 case eMatchState.Countdown:
                     _timer -= Time.deltaTime;
+                    PlayCountdownTick();
                     if (_timer <= 0.0f)
                     {
                         StartPlaying();
@@ -106,12 +109,16 @@ namespace Battlekart
             _playerInputManager.EnableJoining();
             KartItems.ItemsEnabled = false;
             SetLobbyObjectsActive(true);
+            AudioManager.Play(eMusic.Menu);
         }
 
         private void StartCountdown()
         {
             State = eMatchState.Countdown;
             _timer = _countdownDuration;
+            _lastCountdownSecond = Mathf.CeilToInt(_timer);
+            AudioManager.Play(eMusic.Countdown);
+            AudioManager.Play(eSfx.CountdownTick);
             _winner = null;
             _stealSystem.StealingEnabled = false;
             _playerInputManager.DisableJoining();
@@ -134,6 +141,8 @@ namespace Battlekart
             _timer = _matchDuration;
             _stealSystem.StealingEnabled = true;
             KartItems.ItemsEnabled = true;
+            AudioManager.Play(eMusic.Game);
+            AudioManager.Play(eSfx.CountdownGo);
         }
 
         private void ResolveTimeUp()
@@ -145,6 +154,7 @@ namespace Battlekart
             else
             {
                 State = eMatchState.SuddenDeath;
+                AudioManager.SetMusicPitch(_suddenDeathMusicPitch);
             }
         }
 
@@ -162,6 +172,7 @@ namespace Battlekart
             _results.Sort(CompareByScore);
 
             _endSequence.Play(winner);
+            AudioManager.Play(eMusic.Victory);
         }
 
         private bool IsRevealComplete()
@@ -194,6 +205,16 @@ namespace Battlekart
             {
                 pickup.ResetSpot();
             }
+        }
+
+        private void PlayCountdownTick()
+        {
+            int second = Mathf.CeilToInt(_timer);
+            if (second < _lastCountdownSecond && second > 0)
+            {
+                AudioManager.Play(eSfx.CountdownTick);
+            }
+            _lastCountdownSecond = second;
         }
 
         private void SetLobbyObjectsActive(bool active)

@@ -954,6 +954,7 @@ GameObject:
   - component: {fileID: 4002959021028129602}
   - component: {fileID: -7118712903256631386}
   - component: {fileID: -7455419755704396302}
+  - component: {fileID: -3120848971192481802}
   m_Layer: 0
   m_Name: PF_Kart
   m_TagString: Untagged
@@ -1042,7 +1043,7 @@ MonoBehaviour:
   RRWTireSkid: {fileID: 1567296039330962315}
   useUI: 1
   carSpeedText: {fileID: 0}
-  useSounds: 1
+  useSounds: 0
   carEngineSound: {fileID: 0}
   tireScreechSound: {fileID: 0}
   useTouchControls: 0
@@ -1175,6 +1176,28 @@ MonoBehaviour:
   _floorHeight: 0.1
   _labelHeight: 3
   _stunColor: {r: 0.35, g: 0.35, b: 0.35, a: 1}
+--- !u!114 &-3120848971192481802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126114538632726649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2101c16898b7c1b4eb4cb9a92f1580e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.KartAudio
+  _engineClip: {fileID: 8300000, guid: 771ce407ce807b74885ec23ebd1e6647, type: 3}
+  _engineVolume: 0.2
+  _enginePitchMin: 0.8
+  _enginePitchMax: 1.8
+  _speedForMaxPitch: 25
+  _screechClip: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
+  _screechVolume: 0.35
+  _screechSlipSpeed: 4
+  _screechMinSpeed: 5
+  _screechFadeSpeed: 4
 --- !u!1001 &57442113390359561
 PrefabInstance:
   m_ObjectHideFlags: 0
