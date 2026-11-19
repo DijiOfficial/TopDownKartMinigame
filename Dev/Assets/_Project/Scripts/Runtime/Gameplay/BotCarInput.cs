@@ -15,6 +15,10 @@ namespace Battlekart
         [SerializeField] private float _handbrakeAngle = 70.0f;
         [SerializeField] private float _handbrakeMinSpeed = 6.0f;
 
+        [Header("Items")]
+        [SerializeField] private float _boostMinDistance = 8.0f;
+        [SerializeField] private float _boostMaxAngle = 15.0f;
+
         [Header("Unstuck")]
         [SerializeField] private float _stuckSpeed = 1.0f;
         [SerializeField] private float _stuckTime = 1.5f;
@@ -22,6 +26,7 @@ namespace Battlekart
 
         private BalloonCarrier _self;
         private Rigidbody _body;
+        private KartItems _items;
         private BalloonCarrier _target;
         private float _thinkTimer;
         private float _stuckTimer;
@@ -32,16 +37,19 @@ namespace Battlekart
         public bool Accelerate { get; private set; }
         public bool Brake { get; private set; }
         public bool Handbrake { get; private set; }
+        public bool UseItem { get; private set; }
 
         private void Awake()
         {
             _self = GetComponent<BalloonCarrier>();
             TryGetComponent(out _body);
+            TryGetComponent(out _items);
             _thinkTimer = Random.Range(0.0f, _thinkInterval);
         }
 
         private void Update()
         {
+            UseItem = false;
             _thinkTimer -= Time.deltaTime;
             if (_thinkTimer <= 0.0f)
             {
@@ -70,8 +78,27 @@ namespace Battlekart
             Accelerate = _throttleThisTick;
             Brake = false;
             Handbrake = Mathf.Abs(angle) > _handbrakeAngle && speed > _handbrakeMinSpeed;
+            UseItem = ShouldUseItem(toDestination.magnitude, angle);
 
             UpdateStuck(speed);
+        }
+
+        private bool ShouldUseItem(float distanceToDestination, float angle)
+        {
+            if (_items is null)
+            {
+                return false;
+            }
+
+            switch (_items.HeldItem)
+            {
+                case eItemType.Grapple:
+                    return _items.GrappleTarget is not null;
+                case eItemType.Boost:
+                    return distanceToDestination > _boostMinDistance && Mathf.Abs(angle) < _boostMaxAngle;
+                default:
+                    return false;
+            }
         }
 
         private void UpdateStuck(float speed)

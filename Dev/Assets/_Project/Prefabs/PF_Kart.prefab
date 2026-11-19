@@ -953,6 +953,7 @@ GameObject:
   - component: {fileID: 1234358599763255118}
   - component: {fileID: 4002959021028129602}
   - component: {fileID: -7118712903256631386}
+  - component: {fileID: -7455419755704396302}
   m_Layer: 0
   m_Name: PF_Kart
   m_TagString: Untagged
@@ -1146,6 +1147,34 @@ MonoBehaviour:
   _slowPerExtraBalloon: 0.03
   _maxSlow: 0.25
   _bonusPerMissingBalloon: 0.05
+--- !u!114 &-7455419755704396302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126114538632726649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6582ec30cb674a408d62445bdfe9751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.KartItems
+  _boostDuration: 1.5
+  _boostSpeedMultiplier: 1.4
+  _boostImpulse: 6
+  _grappleRange: 12
+  _grappleAngle: 25
+  _grappleLineDuration: 0.3
+  _grappleLineWidth: 0.12
+  _reticleRadius: 1.6
+  _bombFuse: 3
+  _bombRadius: 12
+  _stunDuration: 1
+  _explosionFlashDuration: 0.3
+  _bombRingWidth: 0.15
+  _floorHeight: 0.1
+  _labelHeight: 3
+  _stunColor: {r: 0.35, g: 0.35, b: 0.35, a: 1}
 --- !u!1001 &57442113390359561
 PrefabInstance:
   m_ObjectHideFlags: 0

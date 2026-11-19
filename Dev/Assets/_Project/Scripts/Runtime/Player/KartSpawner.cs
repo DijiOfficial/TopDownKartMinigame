@@ -34,8 +34,6 @@ namespace Battlekart
         private readonly Dictionary<PlayerInput, int> _playerSlots = new();
         private readonly List<GameObject> _bots = new();
 
-        public readonly List<PlayerInput> Players = new();
-
         private void Awake()
         {
             _manager = GetComponent<PlayerInputManager>();
@@ -90,7 +88,6 @@ namespace Battlekart
                 return;
             }
 
-            Players.Add(player);
             _playerSlots.Add(player, slot);
             SetupKart(player.gameObject, slot, $"P{slot + 1}");
 
@@ -99,7 +96,6 @@ namespace Battlekart
 
         private void OnPlayerLeft(PlayerInput player)
         {
-            Players.Remove(player);
             if (_playerSlots.Remove(player, out int slot))
             {
                 _usedSlots.Remove(slot);

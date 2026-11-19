@@ -10,11 +10,13 @@ namespace Battlekart
         private InputAction _accelerate;
         private InputAction _brake;
         private InputAction _handbrake;
+        private InputAction _useItem;
 
         public float Steer => _move is not null ? _move.ReadValue<Vector2>().x : 0.0f;
         public bool Accelerate => _accelerate is not null && _accelerate.IsPressed();
         public bool Brake => _brake is not null && _brake.IsPressed();
         public bool Handbrake => _handbrake is not null && _handbrake.IsPressed();
+        public bool UseItem => _useItem is not null && _useItem.WasPressedThisFrame();
 
         private void Start()
         {
@@ -23,6 +25,7 @@ namespace Battlekart
             _accelerate = map.FindAction("Accelerate", true);
             _brake = map.FindAction("Brake/Reverse", true);
             _handbrake = map.FindAction("Handbrake", true);
+            _useItem = map.FindAction("UseItem", true);
         }
     }
 }

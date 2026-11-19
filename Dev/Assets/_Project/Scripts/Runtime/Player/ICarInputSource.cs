@@ -6,5 +6,6 @@ namespace Battlekart
         bool Accelerate { get; }
         bool Brake { get; }
         bool Handbrake { get; }
+        bool UseItem { get; }
     }
 }

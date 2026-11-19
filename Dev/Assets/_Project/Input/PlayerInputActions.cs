@@ -129,6 +129,15 @@ namespace BattleKart.InputActions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""c52bcd39-e877-4e3c-8daa-b359e6f1d869"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -285,6 +294,39 @@ namespace BattleKart.InputActions
                     ""action"": ""Handbrake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b3aec1d-f6c2-4a31-95da-e839263cfaa2"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3569550a-7284-403b-8bcd-a8adad3c03ab"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e6edb7b-4d99-4022-8e60-c9b6d391bd7e"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -320,6 +362,7 @@ namespace BattleKart.InputActions
             m_Player_Accelerate = m_Player.FindAction("Accelerate", throwIfNotFound: true);
             m_Player_BrakeReverse = m_Player.FindAction("Brake/Reverse", throwIfNotFound: true);
             m_Player_Handbrake = m_Player.FindAction("Handbrake", throwIfNotFound: true);
+            m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -404,6 +447,7 @@ namespace BattleKart.InputActions
         private readonly InputAction m_Player_Accelerate;
         private readonly InputAction m_Player_BrakeReverse;
         private readonly InputAction m_Player_Handbrake;
+        private readonly InputAction m_Player_UseItem;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -431,6 +475,10 @@ namespace BattleKart.InputActions
             /// Provides access to the underlying input action "Player/Handbrake".
             /// </summary>
             public InputAction @Handbrake => m_Wrapper.m_Player_Handbrake;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/UseItem".
+            /// </summary>
+            public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -469,6 +517,9 @@ namespace BattleKart.InputActions
                 @Handbrake.started += instance.OnHandbrake;
                 @Handbrake.performed += instance.OnHandbrake;
                 @Handbrake.canceled += instance.OnHandbrake;
+                @UseItem.started += instance.OnUseItem;
+                @UseItem.performed += instance.OnUseItem;
+                @UseItem.canceled += instance.OnUseItem;
             }
 
             /// <summary>
@@ -492,6 +543,9 @@ namespace BattleKart.InputActions
                 @Handbrake.started -= instance.OnHandbrake;
                 @Handbrake.performed -= instance.OnHandbrake;
                 @Handbrake.canceled -= instance.OnHandbrake;
+                @UseItem.started -= instance.OnUseItem;
+                @UseItem.performed -= instance.OnUseItem;
+                @UseItem.canceled -= instance.OnUseItem;
             }
 
             /// <summary>
@@ -586,6 +640,13 @@ namespace BattleKart.InputActions
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnHandbrake(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "UseItem" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnUseItem(InputAction.CallbackContext context);
         }
     }
 }

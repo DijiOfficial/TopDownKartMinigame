@@ -16,6 +16,7 @@ namespace Battlekart
         public bool Accelerate { get; private set; }
         public bool Brake => false;
         public bool Handbrake => false;
+        public bool UseItem => false;
 
         public CircuitDriver(Transform kart, Transform[] waypoints, float waypointRadius, float cruiseSpeed, float steerFullAngle)
         {

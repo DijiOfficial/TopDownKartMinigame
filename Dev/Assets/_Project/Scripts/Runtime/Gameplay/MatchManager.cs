@@ -104,6 +104,7 @@ namespace Battlekart
             _winner = null;
             _stealSystem.StealingEnabled = false;
             _playerInputManager.EnableJoining();
+            KartItems.ItemsEnabled = false;
             SetLobbyObjectsActive(true);
         }
 
@@ -114,6 +115,7 @@ namespace Battlekart
             _winner = null;
             _stealSystem.StealingEnabled = false;
             _playerInputManager.DisableJoining();
+            KartItems.ItemsEnabled = false;
             SetLobbyObjectsActive(false);
             _endSequence.Stop();
             _kartSpawner.SpawnBots();
@@ -123,6 +125,7 @@ namespace Battlekart
             {
                 carrier.ResetBalloons();
             }
+            ResetAllItems();
         }
 
         private void StartPlaying()
@@ -130,6 +133,7 @@ namespace Battlekart
             State = eMatchState.Playing;
             _timer = _matchDuration;
             _stealSystem.StealingEnabled = true;
+            KartItems.ItemsEnabled = true;
         }
 
         private void ResolveTimeUp()
@@ -149,6 +153,8 @@ namespace Battlekart
             State = eMatchState.Finished;
             _winner = winner;
             _stealSystem.StealingEnabled = false;
+            KartItems.ItemsEnabled = false;
+            ResetAllItems();
             _finishedTime = Time.time;
 
             _results.Clear();
@@ -172,6 +178,22 @@ namespace Battlekart
         {
             int byCount = right.Count.CompareTo(left.Count);
             return byCount != 0 ? byCount : left.PlayerIndex.CompareTo(right.PlayerIndex);
+        }
+
+        private static void ResetAllItems()
+        {
+            foreach (BalloonCarrier carrier in BalloonCarrier.All)
+            {
+                if (carrier.TryGetComponent(out KartItems items))
+                {
+                    items.ResetItems();
+                }
+            }
+
+            foreach (ItemPickup pickup in ItemPickup.All)
+            {
+                pickup.ResetSpot();
+            }
         }
 
         private void SetLobbyObjectsActive(bool active)
