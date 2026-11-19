@@ -12,6 +12,7 @@ namespace Battlekart
         [Header("Shape")]
         [SerializeField] private float _length = 12.0f;
         [SerializeField] private float _height = 1.5f;
+        [SerializeField] private float _colliderHeightMultiplier = 2.0f;
         [SerializeField] private float _thickness = 0.5f;
         [SerializeField, Range(1, 4)] private int _bars = 1;
         [SerializeField] private float _hubRadius = 0.8f;
@@ -50,6 +51,7 @@ namespace Battlekart
                 bar.transform.localPosition = Vector3.up * (_height * 0.5f);
                 bar.transform.localRotation = Quaternion.Euler(0.0f, 180.0f / _bars * i, 0.0f);
                 bar.transform.localScale = new Vector3(_thickness, _height, _length);
+                RuntimePrimitive.ExtendColliderUp(bar, _colliderHeightMultiplier);
                 RendererTint.Apply(bar.GetComponent<Renderer>(), _color);
             }
 

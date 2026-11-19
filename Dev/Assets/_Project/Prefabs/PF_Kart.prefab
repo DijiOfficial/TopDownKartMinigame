@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: -7118712903256631386}
   - component: {fileID: -7455419755704396302}
   - component: {fileID: -3120848971192481802}
+  - component: {fileID: 5810337164925561042}
   m_Layer: 0
   m_Name: PF_Kart
   m_TagString: Untagged
@@ -1130,7 +1131,7 @@ MonoBehaviour:
   _balloonSpacing: 1
   _followSharpness: 15
   _noseOffset: 1.2
-  _invulnerableDuration: 2
+  _invulnerableDuration: 5
   _blinkInterval: 0.1
 --- !u!114 &-7118712903256631386
 MonoBehaviour:
@@ -1145,8 +1146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Battlekart::Battlekart.BalloonWeight
   _neutralCount: 3
-  _slowPerExtraBalloon: 0.03
-  _maxSlow: 0.25
+  _slowPerExtraBalloon: 0.06
+  _maxSlow: 0.4
   _bonusPerMissingBalloon: 0.05
 --- !u!114 &-7455419755704396302
 MonoBehaviour:
@@ -1168,7 +1169,6 @@ MonoBehaviour:
   _grappleLineDuration: 0.3
   _grappleLineWidth: 0.12
   _reticleRadius: 1.6
-  _bombFuse: 3
   _bombRadius: 12
   _stunDuration: 1
   _explosionFlashDuration: 0.3
@@ -1198,6 +1198,22 @@ MonoBehaviour:
   _screechSlipSpeed: 4
   _screechMinSpeed: 5
   _screechFadeSpeed: 4
+--- !u!114 &5810337164925561042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126114538632726649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e879217f24432e99fc3f72134fb133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Battlekart::Battlekart.KartFlipRecovery
+  _uprightThreshold: 0.3
+  _flippedTime: 1.5
+  _maxSpeed: 3
+  _liftHeight: 1
 --- !u!1001 &57442113390359561
 PrefabInstance:
   m_ObjectHideFlags: 0

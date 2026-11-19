@@ -6,8 +6,8 @@ namespace Battlekart
     public class BalloonWeight : MonoBehaviour, IKartSpeedModifier
     {
         [SerializeField] private int _neutralCount = 3;
-        [SerializeField, Range(0.0f, 0.2f)] private float _slowPerExtraBalloon = 0.03f;
-        [SerializeField, Range(0.0f, 0.9f)] private float _maxSlow = 0.25f;
+        [SerializeField, Range(0.0f, 0.2f)] private float _slowPerExtraBalloon = 0.06f;
+        [SerializeField, Range(0.0f, 0.9f)] private float _maxSlow = 0.4f;
         [SerializeField, Range(0.0f, 0.2f)] private float _bonusPerMissingBalloon = 0.05f;
 
         private BalloonCarrier _carrier;

@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Battlekart::Battlekart.StealSystem
   _innerRadius: 1
-  _outerRadius: 8
-  _halfAngle: 30
+  _outerRadius: 12
+  _halfAngle: 20
   _fillDuration: 0.4
   _showZones: 1
   _lineMaterial: {fileID: 0}

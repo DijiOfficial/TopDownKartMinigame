@@ -20,7 +20,7 @@ namespace Battlekart
 
         [Header("Steal")]
         [SerializeField] private float _noseOffset = 1.2f;
-        [SerializeField] private float _invulnerableDuration = 2.0f;
+        [SerializeField] private float _invulnerableDuration = 5.0f;
         [SerializeField] private float _blinkInterval = 0.1f;
 
         private readonly List<Transform> _balloons = new();

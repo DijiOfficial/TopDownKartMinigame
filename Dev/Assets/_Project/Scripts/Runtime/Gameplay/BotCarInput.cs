@@ -96,6 +96,8 @@ namespace Battlekart
                     return _items.GrappleTarget is not null;
                 case eItemType.Boost:
                     return distanceToDestination > _boostMinDistance && Mathf.Abs(angle) < _boostMaxAngle;
+                case eItemType.Bomb:
+                    return _items.HasKartInBombRange;
                 default:
                     return false;
             }

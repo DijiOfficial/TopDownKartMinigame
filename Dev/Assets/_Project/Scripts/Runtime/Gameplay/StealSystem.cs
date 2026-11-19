@@ -7,8 +7,8 @@ namespace Battlekart
     {
         [Header("Zone")]
         [SerializeField] private float _innerRadius = 1.0f;
-        [SerializeField] private float _outerRadius = 8.0f;
-        [SerializeField, Range(10.0f, 180.0f)] private float _halfAngle = 30.0f;
+        [SerializeField] private float _outerRadius = 12.0f;
+        [SerializeField, Range(10.0f, 180.0f)] private float _halfAngle = 20.0f;
 
         [Header("Timing")]
         [SerializeField] private float _fillDuration = 0.4f;

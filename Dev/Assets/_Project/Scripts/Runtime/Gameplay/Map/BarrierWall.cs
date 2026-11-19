@@ -7,6 +7,7 @@ namespace Battlekart
         [Header("Shape")]
         [SerializeField] private Vector3 _size = new Vector3(6.0f, 1.5f, 0.6f);
         [SerializeField] private float _clearMargin = 1.2f;
+        [SerializeField] private float _colliderHeightMultiplier = 2.0f;
 
         [Header("Timing")]
         [SerializeField] private float _warningTime = 0.6f;
@@ -46,6 +47,7 @@ namespace Battlekart
             blockObject.name = "Wall Block";
             blockObject.transform.SetParent(transform, false);
             blockObject.transform.localScale = _size;
+            RuntimePrimitive.ExtendColliderUp(blockObject, _colliderHeightMultiplier);
             _block = blockObject.transform;
             _blockRenderer = blockObject.GetComponent<Renderer>();
             RendererTint.Apply(_blockRenderer, _color);

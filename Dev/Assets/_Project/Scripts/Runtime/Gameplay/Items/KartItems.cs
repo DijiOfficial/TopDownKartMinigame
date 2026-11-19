@@ -22,11 +22,11 @@ namespace Battlekart
         [SerializeField] private float _reticleRadius = 1.6f;
 
         [Header("Bomb")]
-        [SerializeField] private float _bombFuse = 3.0f;
         [SerializeField] private float _bombRadius = 12.0f;
         [SerializeField] private float _stunDuration = 1.0f;
         [SerializeField] private float _explosionFlashDuration = 0.3f;
         [SerializeField] private float _bombRingWidth = 0.15f;
+        [SerializeField] private float _bombPulseSpeed = 2.0f;
 
         [Header("Visuals")]
         [SerializeField] private float _floorHeight = 0.1f;
@@ -39,8 +39,6 @@ namespace Battlekart
 
         private float _boostTimer;
         private float _stunTimer;
-        private float _bombTimer;
-        private float _bombBlinkPhase;
         private float _flashTimer;
         private float _grappleLineTimer;
         private BalloonCarrier _grappleLineTarget;
@@ -52,8 +50,9 @@ namespace Battlekart
 
         public eItemType HeldItem { get; private set; }
         public BalloonCarrier GrappleTarget { get; private set; }
-        public bool HasBomb => _bombTimer > 0.0f;
-        public bool CanReceiveItem => HeldItem == eItemType.None && HasBomb == false;
+        public bool HasBomb => HeldItem == eItemType.Bomb;
+        public bool CanReceiveItem => HeldItem == eItemType.None;
+        public bool HasKartInBombRange => HasBomb && FindKartsInBombRange(null) > 0;
         public bool IsStunned => _stunTimer > 0.0f;
         public float SpeedMultiplier => IsStunned ? 0.0f : _boostTimer > 0.0f ? _boostSpeedMultiplier : 1.0f;
 
@@ -77,18 +76,6 @@ namespace Battlekart
 
         public bool TryGiveItem(eItemType item)
         {
-            if (item == eItemType.Bomb)
-            {
-                if (HasBomb)
-                {
-                    return false;
-                }
-
-                _bombTimer = _bombFuse;
-                _bombBlinkPhase = 0.0f;
-                return true;
-            }
-
             if (HeldItem != eItemType.None)
             {
                 return false;
@@ -103,7 +90,6 @@ namespace Battlekart
             HeldItem = eItemType.None;
             GrappleTarget = null;
             _boostTimer = 0.0f;
-            _bombTimer = 0.0f;
             _flashTimer = 0.0f;
             _grappleLineTimer = 0.0f;
             _grappleLineTarget = null;
@@ -150,7 +136,7 @@ namespace Battlekart
                 UseHeldItem();
             }
 
-            UpdateBomb(deltaTime);
+            _flashTimer = Mathf.Max(0.0f, _flashTimer - deltaTime);
         }
 
         private void LateUpdate()
@@ -199,6 +185,10 @@ namespace Battlekart
                         GrappleTarget = null;
                     }
                     break;
+                case eItemType.Bomb:
+                    Explode();
+                    HeldItem = eItemType.None;
+                    break;
             }
         }
 
@@ -233,36 +223,16 @@ namespace Battlekart
             return best;
         }
 
-        private void UpdateBomb(float deltaTime)
-        {
-            _flashTimer = Mathf.Max(0.0f, _flashTimer - deltaTime);
-            if (HasBomb == false)
-            {
-                return;
-            }
-
-            int previousSecond = Mathf.CeilToInt(_bombTimer);
-            _bombTimer -= deltaTime;
-            if (Mathf.CeilToInt(_bombTimer) < previousSecond && _bombTimer > 0.0f)
-            {
-                AudioManager.Play(eSfx.BombTick);
-            }
-
-            float blinkInterval = Mathf.Lerp(0.08f, 0.4f, _bombTimer / _bombFuse);
-            _bombBlinkPhase += deltaTime / blinkInterval;
-
-            if (HasBomb == false)
-            {
-                Explode();
-            }
-        }
-
         private void Explode()
         {
-            _bombTimer = 0.0f;
             _flashTimer = _explosionFlashDuration;
             AudioManager.Play(eSfx.BombExplode);
+            FindKartsInBombRange(otherItems => otherItems.Stun());
+        }
 
+        private int FindKartsInBombRange(System.Action<KartItems> onFound)
+        {
+            int count = 0;
             foreach (BalloonCarrier other in BalloonCarrier.All)
             {
                 if (other == _carrier || other.IsHidden)
@@ -274,9 +244,11 @@ namespace Battlekart
                 offset.y = 0.0f;
                 if (offset.magnitude <= _bombRadius && other.TryGetComponent(out KartItems otherItems))
                 {
-                    otherItems.Stun();
+                    count++;
+                    onFound?.Invoke(otherItems);
                 }
             }
+            return count;
         }
 
         private void UpdateReticle()
@@ -324,15 +296,16 @@ namespace Battlekart
                 return;
             }
 
-            bool visible = HasBomb && Mathf.FloorToInt(_bombBlinkPhase) % 2 == 0;
-            _bombRing.enabled = visible;
-            if (visible == false)
+            _bombRing.enabled = HasBomb;
+            if (HasBomb == false)
             {
                 return;
             }
 
+            Color ringColor = ItemInfo.GetColor(eItemType.Bomb);
+            ringColor.a = Mathf.Lerp(0.35f, 0.9f, (Mathf.Sin(Time.time * Mathf.PI * 2.0f * _bombPulseSpeed) + 1.0f) * 0.5f);
             _bombRing.widthMultiplier = _bombRingWidth;
-            FloorLine.SetColor(_bombRing, ItemInfo.GetColor(eItemType.Bomb));
+            FloorLine.SetColor(_bombRing, ringColor);
             FloorLine.SetArc(_bombRing, FloorPoint(transform.position), _bombRadius, 0.0f, 360.0f, CircleSegments);
         }
 
@@ -357,7 +330,7 @@ namespace Battlekart
 
         private void OnGUI()
         {
-            if (ItemsEnabled == false || _carrier.IsHidden || (HeldItem == eItemType.None && HasBomb == false))
+            if (ItemsEnabled == false || _carrier.IsHidden || HeldItem == eItemType.None)
             {
                 return;
             }
@@ -373,16 +346,7 @@ namespace Battlekart
             }
             _labelStyle.fontSize = Mathf.Max(10, Screen.height / 45);
 
-            if (HeldItem != eItemType.None)
-            {
-                ItemInfo.DrawLabel(position, ItemInfo.GetLabel(HeldItem), _labelStyle, ItemInfo.GetColor(HeldItem));
-                position.y -= _labelStyle.fontSize * 1.3f;
-            }
-
-            if (HasBomb)
-            {
-                ItemInfo.DrawLabel(position, $"{ItemInfo.GetLabel(eItemType.Bomb)} {Mathf.CeilToInt(_bombTimer)}", _labelStyle, ItemInfo.GetColor(eItemType.Bomb));
-            }
+            ItemInfo.DrawLabel(position, ItemInfo.GetLabel(HeldItem), _labelStyle, ItemInfo.GetColor(HeldItem));
         }
     }
 }

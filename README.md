@@ -44,7 +44,7 @@ It also fills a gap: BattleKart already has racing, territory, snake, football, 
 
 - Everyone starts with **3 balloons**, floating in a line behind the kart.
 - **Steal:** keep your nose inside the cone **behind** another kart. A ring fills up, and when it's full one balloon flies over to you.
-- After losing a balloon you're **invulnerable for 2 s** (your kart blinks), so nobody can drain you in one go.
+- After losing a balloon you're **invulnerable for 5 s** (your kart blinks), so nobody can drain you in one go.
 - **Weight:** every balloon above 3 makes you a bit slower. Every balloon below 3 makes you a bit faster. The leader is easier to catch, and nobody is ever out of the game.
 - The **crown** floats over whoever is leading, so everyone knows who to hunt.
 
@@ -59,9 +59,9 @@ Pickup spots appear on the map and respawn after a few seconds (a ring on the fl
 
 - **Boost:** a short burst of speed. Use it to escape someone on your tail, or to close the gap.
 - **Grapple:** steal one balloon from a kart in front of you, from any angle. A reticle shows who you'll grab before you press the button.
-- **Bomb:** goes off **automatically 3 s after pickup**. Everyone inside the red ring loses power for 1 s. Drive it into the crowd, then go steal from the karts that are stuck.
+- **Bomb:** you hold it and **set it off yourself** with the item button. Everyone inside the red ring loses power for 1 s. Drive it into the crowd, pick your moment, then go steal from the karts that are stuck.
 
-You can hold one item at a time, and you can't pick up a new one while you're holding an item or carrying a ticking bomb.
+You can hold one item at a time, and you can't pick up a new one while you're holding one.
 
 ---
 
@@ -80,7 +80,7 @@ BattleKart is real karts on a floor projected from the ceiling. I tried to desig
 - **Catch-up you can see.** Weight and the crown make the leader an obvious, catchable target. Rounds stay close without hidden rubber-banding.
 - **Same rules from 2 to 12 players.** The arena just gets busier. Nothing needs re-tuning per player count.
 - **Only P1 starts.** In a group, someone has to be "the host", and it stops random button presses from starting the match.
-- **Items that are readable at a glance.** Every item shows a label above the kart holding it, and the bomb shows its blast radius before it goes off.
+- **Items that are readable at a glance.** Every item shows a label above the kart holding it, and the bomb shows its blast radius while you hold it.
 
 **What I dropped, and why not**
 

@@ -19,6 +19,15 @@ namespace Battlekart
             return primitive;
         }
 
+        public static void ExtendColliderUp(GameObject primitive, float heightMultiplier)
+        {
+            if (primitive.TryGetComponent(out BoxCollider box))
+            {
+                box.size = new Vector3(1.0f, heightMultiplier, 1.0f);
+                box.center = new Vector3(0.0f, (heightMultiplier - 1.0f) * 0.5f, 0.0f);
+            }
+        }
+
         private static Material GetMaterial()
         {
             if (_material == null)
