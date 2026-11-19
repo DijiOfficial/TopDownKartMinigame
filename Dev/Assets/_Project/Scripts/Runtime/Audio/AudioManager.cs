@@ -20,7 +20,9 @@ namespace Battlekart
         Boost = 4,
         Grapple = 5,
         BombTick = 6,
-        BombExplode = 7
+        BombExplode = 7,
+        PlatePress = 8,
+        BoostPad = 9
     }
 
     public class AudioManager : SingletonBehaviour<AudioManager>
@@ -49,6 +51,8 @@ namespace Battlekart
         [SerializeField] private SoundSetting _grapple = new SoundSetting();
         [SerializeField] private SoundSetting _bombTick = new SoundSetting();
         [SerializeField] private SoundSetting _bombExplode = new SoundSetting();
+        [SerializeField] private SoundSetting _platePress = new SoundSetting();
+        [SerializeField] private SoundSetting _boostPad = new SoundSetting();
 
         private AudioSource _musicA;
         private AudioSource _musicB;
@@ -179,6 +183,10 @@ namespace Battlekart
                     return _bombTick;
                 case eSfx.BombExplode:
                     return _bombExplode;
+                case eSfx.PlatePress:
+                    return _platePress;
+                case eSfx.BoostPad:
+                    return _boostPad;
                 default:
                     return null;
             }

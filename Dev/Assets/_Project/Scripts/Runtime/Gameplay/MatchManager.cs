@@ -108,6 +108,7 @@ namespace Battlekart
             _stealSystem.StealingEnabled = false;
             _playerInputManager.EnableJoining();
             KartItems.ItemsEnabled = false;
+            MapElements.SetActive(true);
             SetLobbyObjectsActive(true);
             AudioManager.Play(eMusic.Menu);
         }
@@ -133,6 +134,7 @@ namespace Battlekart
                 carrier.ResetBalloons();
             }
             ResetAllItems();
+            MapElements.SetActive(true);
         }
 
         private void StartPlaying()
@@ -165,6 +167,7 @@ namespace Battlekart
             _stealSystem.StealingEnabled = false;
             KartItems.ItemsEnabled = false;
             ResetAllItems();
+            MapElements.SetActive(false);
             _finishedTime = Time.time;
 
             _results.Clear();

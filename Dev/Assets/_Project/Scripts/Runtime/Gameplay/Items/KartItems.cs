@@ -115,6 +115,15 @@ namespace Battlekart
             HideVisuals();
         }
 
+        public void ApplyBoost(float duration, float impulse)
+        {
+            _boostTimer = Mathf.Max(_boostTimer, duration);
+            if (_body is not null)
+            {
+                _body.AddForce(FlatForward() * impulse, ForceMode.VelocityChange);
+            }
+        }
+
         public void Stun()
         {
             _stunTimer = _stunDuration;
@@ -123,14 +132,15 @@ namespace Battlekart
 
         private void Update()
         {
+            float deltaTime = Time.deltaTime;
+            _boostTimer = Mathf.Max(0.0f, _boostTimer - deltaTime);
+
             if (ItemsEnabled == false || _carrier.IsHidden)
             {
                 HideVisuals();
                 return;
             }
 
-            float deltaTime = Time.deltaTime;
-            _boostTimer = Mathf.Max(0.0f, _boostTimer - deltaTime);
             UpdateStun(deltaTime);
 
             GrappleTarget = HeldItem == eItemType.Grapple ? FindGrappleTarget() : null;
@@ -174,12 +184,8 @@ namespace Battlekart
             switch (HeldItem)
             {
                 case eItemType.Boost:
-                    _boostTimer = _boostDuration;
+                    ApplyBoost(_boostDuration, _boostImpulse);
                     AudioManager.Play(eSfx.Boost);
-                    if (_body is not null)
-                    {
-                        _body.AddForce(FlatForward() * _boostImpulse, ForceMode.VelocityChange);
-                    }
                     HeldItem = eItemType.None;
                     break;
                 case eItemType.Grapple:

@@ -44,6 +44,9 @@ public class PrometeoCarController : MonoBehaviour, ICarInputReceiver
     [Range(1, 10)]
     public int handbrakeDriftMultiplier = 5; // How much grip the car loses when the user hit the handbrake.
 
+    [Range(0.1f, 2.0f)]
+    public float tractionRecoveryTime = 0.5f;
+
     [Space(10)]
     public Vector3
         bodyMassCenter; // This is a vector that contains the center of mass of the car. I recommend to set this value
@@ -956,7 +959,7 @@ public class PrometeoCarController : MonoBehaviour, ICarInputReceiver
     public void RecoverTraction()
     {
         isTractionLocked = false;
-        driftingAxis = driftingAxis - (Time.deltaTime / 1.5f);
+        driftingAxis = driftingAxis - (Time.deltaTime / tractionRecoveryTime);
         if (driftingAxis < 0f)
         {
             driftingAxis = 0f;
