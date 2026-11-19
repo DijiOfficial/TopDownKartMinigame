@@ -123,4 +123,4 @@ The core rule (tail to steal) stays the same. Everything else is a dial:
 - **Balloons** by Loafbrr (CC0): https://loafbrr.itch.io/
 - **Low Poly Objects Pack** (Unity Asset Store): crown and pickup models.
 - Engine and tire sounds: included with PROMETEO.
-- Music and countdown sounds: *source to be added.*
+- Music and countdown sounds: Pixabay
